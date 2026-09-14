@@ -2,6 +2,17 @@
 import streamlit as st
 from agent import run_phbl_agent
 
+def suggest_teks(grade, topic):
+    text = f"{grade} {topic}".lower()
+    if "5" in text and any(word in text for word in ["water", "weather", "ocean", "evapor", "cycle"]):
+        return (
+            "5.10A Explain how the Sun and the ocean interact in the water cycle and affect weather.\n"
+            "5.1B Ask questions and define problems based on observations or information from text, phenomena, models, or investigations.\n"
+            "5.1E Collect observations and measurements as evidence.\n"
+            "5.3B Communicate explanations and solutions that connect evidence to scientific ideas."
+        )
+    return ""
+
 st.set_page_config(page_title="PhBL Design Partner", page_icon="🔬")
 st.title("🔬 PhBL Design Partner")
 st.caption("Help a science teacher design a phenomenon-based lesson.")
@@ -11,6 +22,7 @@ if "messages" not in st.session_state:
 if "context" not in st.session_state:
     st.session_state.context = {
         "grade": "",
+        "teks": "",
         "topic": "",
         "objectives": "",
         "student_context": "",
@@ -26,7 +38,13 @@ if "context" not in st.session_state:
 with st.sidebar:
     st.header("Lesson context")
     grade = st.text_input("Grade level", value=st.session_state.context["grade"])
-    topic = st.text_input("Curriculum topic", value=st.session_state.context["topic"])
+    teks = st.text_area(
+        "TEKS",
+        value=st.session_state.context.get("teks", ""),
+        help="Paste codes and wording, such as 5.10A. You can add more than one.",
+        placeholder="5.10A Explain how the Sun and the ocean interact in the water cycle and affect weather.",
+    )
+    topic = st.text_input("Curriculum topic", value=st.session_state.context["topic"])    
     objectives = st.text_area("Learning objectives", value=st.session_state.context["objectives"])
     student_context = st.text_area(
         "Student context (optional)",
@@ -60,6 +78,7 @@ with st.sidebar:
     if st.button("Save context"):
         st.session_state.context = {
             "grade": grade.strip(),
+            "teks": teks.strip(),
             "topic": topic.strip(),
             "objectives": objectives.strip(),
             "student_context": student_context.strip(),
@@ -77,6 +96,15 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
+       
+    if st.button("Suggest TEKS from grade and topic"):
+        suggested = suggest_teks(grade, topic)
+        if suggested:
+            st.session_state.context["teks"] = suggested
+            st.rerun()
+        else:
+            st.warning("No built-in match. Paste the TEKS from your scope and sequence.")
+            
 stage_label = st.radio(
     "Current stage",
     [
@@ -135,6 +163,8 @@ st.write(helper)
 
 if st.session_state.context.get("phenomenon"):
     st.info(f"Phenomenon: {st.session_state.context['phenomenon']}")
+if st.session_state.context.get("teks"):
+    st.info(f"TEKS: {st.session_state.context['teks']}")
 if st.session_state.context.get("introduction"):
     st.info(f"Introduction: {st.session_state.context['introduction']}")
 if st.session_state.context.get("investigations"):

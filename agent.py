@@ -52,6 +52,7 @@ def build_context_block(ctx):
     return f"""
 Teacher context:
 - Grade level: {ctx.get('grade') or 'not provided'}
+- TEKS: {ctx.get('teks') or 'not provided'}
 - Curriculum topic: {ctx.get('topic') or 'not provided'}
 - Learning objectives: {ctx.get('objectives') or 'not provided'}
 - Student context: {ctx.get('student_context') or 'not provided'}
@@ -85,6 +86,16 @@ Stage 1 task:
 If a phenomenon is already selected, confirm why it is strong and stay with it.
 Do not write a full lesson plan.
 Do not jump to later stages unless asked.
+
+If TEKS are saved, use them for teacher alignment.
+Name the matching student expectation by code when it fits.
+Say which part of the phenomenon, investigation, or consensus gives evidence for that skill.
+Do not start the student lesson by reading the TEKS aloud.
+Do not treat the TEKS wording as the first explanation students should hear.
+If no TEKS are saved, still design the lesson and note which Texas science skills it could support.
+
+In the fit explanation for each phenomenon, include a short TEKS alignment line
+when TEKS are provided.
 """.strip()
 
 
@@ -186,6 +197,13 @@ Do not mix a disappearing-puddle lesson with a cold-can or AC-drip lesson.
 Tell the teacher which field to change in the sidebar.
 Do not invent a combined explanation.
 
+If TEKS are saved, use them for teacher alignment.
+Name the matching student expectation by code when it fits.
+Say which part of the phenomenon, investigation, or consensus gives evidence for that skill.
+Do not start the student lesson by reading the TEKS aloud.
+Do not treat the TEKS wording as the first explanation students should hear.
+If no TEKS are saved, still design the lesson and note which Texas science skills it could support.
+
 If selected investigations are already saved in the teacher context, keep those investigations.
 Do not replace them with a new set.
 Explain how those saved tests work and which models they test.
@@ -257,6 +275,16 @@ If the saved investigations do not test the saved phenomenon, stop.
 Do not mix a disappearing-puddle lesson with a cold-can or AC-drip lesson.
 Tell the teacher which field to change in the sidebar.
 Do not invent a combined explanation.
+
+If TEKS are saved, use them for teacher alignment.
+Name the matching student expectation by code when it fits.
+Say which part of the phenomenon, investigation, or consensus gives evidence for that skill.
+Do not start the student lesson by reading the TEKS aloud.
+Do not treat the TEKS wording as the first explanation students should hear.
+If no TEKS are saved, still design the lesson and note which Texas science skills it could support.
+
+After the consensus model, add a short teacher-only note:
+which saved TEKS this class explanation now addresses, and what evidence students used.
 
 Use only the selected investigations if they are saved.
 Do not invent extra tests.
